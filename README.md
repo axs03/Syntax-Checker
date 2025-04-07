@@ -1,22 +1,21 @@
 # Syntax Checker
 Made by Aman Sahu
 ## Test Cases
-### Fail
+### Fail Cases
 | Test Case      | Status |
 |----------------|--------|
 | fail_01        | Y      |
-| fail_02        | N      |
-| fail_03 (a, b) | N      |
-| fail_04        | N      |
-| fail_05 (a, b) | N      |
-| fail_06        | N      |
-| fail_07        | N      |
-| fail_08 (a, b) | N      |
-| fail_09        | N      |
-| fail_10        | N      |
-**NOTE**: Fix line numbers
+| fail_02        | Y      |
+| fail_03 (a, b) | Y      |
+| fail_04        | Y      |
+| fail_05 (a, b) | Y      |
+| fail_06        | Y      |
+| fail_07        | Y      |
+| fail_08 (a, b) | Y      |
+| fail_09        | Y      |
+| fail_10        | Y      |
 
-### Success
+### Success Cases
 | Test Case | Status |
 |-----------|--------|
 | succ_01   | Y      |
@@ -33,5 +32,6 @@ Made by Aman Sahu
 
 ## Compile flex using JFlex binary
 ``` bash
+  cd src
   java -jar jflex-1.6.1.jar Lexer.flex
 ```

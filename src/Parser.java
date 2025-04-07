@@ -73,9 +73,9 @@ public class Parser {
             String expected = tokenString(token_type);
             String found = tokenString(_token.type);
             if (_token.attr != null)
-                throw new Exception("\"" + expected + "\" is expected instead of \"" + lexeme + "\" at " + _lexer.lineno + ":" + _lexer.column + ".");
+                throw new Exception("\"" + expected + "\" is expected instead of \"" + lexeme + "\" at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
             else
-                throw new Exception("\"" + expected + "\" is expected instead of \"" + found + "\" at " + _lexer.lineno + ":" + _lexer.column + ".");
+                throw new Exception("\"" + expected + "\" is expected instead of \"" + found + "\" at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
         }  // throw exception with the line col and token/lexeme (indicating parsing error in this assignment)
 
         if (_token.type != ENDMARKER)    // if token is not endmarker,
@@ -83,7 +83,6 @@ public class Parser {
 
         return lexeme;
     }
-
 
     private String tokenString(int token_type) {
         return switch (token_type) {
@@ -180,7 +179,7 @@ public class Parser {
                 String v1 = Match(ENDMARKER);
                 return new ParseTree.Program(funcs);
         }
-        throw new Exception("No matching production in program at " + _lexer.lineno + ":" + _lexer.column);
+        throw new Exception("No matching production in program at " + _lexer.lineno + ":" + _lexer.tokenColumn);
     }
 
     public List<ParseTree.FuncDecl> decl_list() throws Exception {
@@ -191,7 +190,7 @@ public class Parser {
             case ENDMARKER:
                 return decl_list_();
         }
-        throw new Exception("No matching production in decl_list at " + _lexer.lineno + ":" + _lexer.column);
+        throw new Exception("No matching production in decl_list at " + _lexer.lineno + ":" + _lexer.tokenColumn);
     }
 
     public List<ParseTree.FuncDecl> decl_list_() throws Exception {
@@ -206,7 +205,7 @@ public class Parser {
             case ENDMARKER:
                 return new ArrayList<ParseTree.FuncDecl>();
         }
-        throw new Exception("No matching production in decl_list' at " + _lexer.lineno + ":" + _lexer.column);
+        throw new Exception("No matching production in decl_list' at " + _lexer.lineno + ":" + _lexer.tokenColumn);
     }
 
     public ParseTree.FuncDecl fun_decl() throws Exception {
@@ -226,7 +225,7 @@ public class Parser {
                 String                    v09 = Match(END);
                 return new ParseTree.FuncDecl(v02, v01, v04, v07, v08);
         }
-        throw new Exception("No matching production in fun_decl at " + _lexer.lineno + ":" + _lexer.column);
+        throw new Exception("No matching production in fun_decl at " + _lexer.lineno + ":" + _lexer.tokenColumn);
     }
 
     public List<ParseTree.Param> params() throws Exception {
@@ -238,7 +237,7 @@ public class Parser {
             case RPAREN:
                 return new ArrayList<ParseTree.Param>();
         }
-        throw new Exception("No matching production in params at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in params at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public List<ParseTree.Param> param_list() throws Exception {
@@ -251,7 +250,7 @@ public class Parser {
                 v2.add(0, v1);
                 return v2;
         }
-        throw new Exception("No matching production in param_list at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in param_list at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public List<ParseTree.Param> param_list_() throws Exception {
@@ -267,7 +266,7 @@ public class Parser {
             case RPAREN:
                 return new ArrayList<ParseTree.Param>();
         }
-        throw new Exception("No matching production in param_list' at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in param_list' at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.Param param() throws Exception {
@@ -279,7 +278,7 @@ public class Parser {
                 String id = Match(IDENT);
                 return new ParseTree.Param(id, ts);
         }
-        throw new Exception("No matching production in param at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in param at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.TypeSpec type_spec() throws Exception {
@@ -291,7 +290,7 @@ public class Parser {
                 ParseTree.TypeSpec_ ts_ = type_spec_();
                 return new ParseTree.TypeSpec(pt, ts_);
         }
-        throw new Exception("No matching production in type_spec at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in type_spec at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.TypeSpec_ type_spec_() throws Exception {
@@ -308,7 +307,7 @@ public class Parser {
             case ENDMARKER:
                 return new ParseTree.TypeSpec_Value();
         }
-        throw new Exception("No matching production in type_spec' at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in type_spec' at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.PrimType prim_type() throws Exception {
@@ -324,7 +323,7 @@ public class Parser {
                 return new ParseTree.PrimTypeNum();
             }
         }
-        throw new Exception("No matching production in prim_type at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in prim_type at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public List<ParseTree.LocalDecl> local_decls() throws Exception {
@@ -342,7 +341,7 @@ public class Parser {
             case IDENT:
                 return local_decls_();
         }
-        throw new Exception("No matching production in local_decls at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in local_decls at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public List<ParseTree.LocalDecl> local_decls_() throws Exception {
@@ -364,7 +363,7 @@ public class Parser {
             case IDENT:
                 return new ArrayList<ParseTree.LocalDecl>();
         }
-        throw new Exception("No matching production in local_decls' at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in local_decls' at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.LocalDecl local_decl() throws Exception {
@@ -377,7 +376,7 @@ public class Parser {
                 String semi = Match(SEMI);
                 return new ParseTree.LocalDecl(id, ts);
         }
-        throw new Exception("No matching production in local_decl at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in local_decl at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public List<ParseTree.Stmt> stmt_list() throws Exception {
@@ -412,7 +411,7 @@ public class Parser {
             case END:
                 return new ArrayList<ParseTree.Stmt>();
         }
-        throw new Exception("No matching production in stmt_list' at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in stmt_list' at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.Stmt stmt() throws Exception {
@@ -431,7 +430,7 @@ public class Parser {
             case WHILE:
                 return while_stmt();
         }
-        throw new Exception("No matching production in stmt at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in stmt at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.StmtAssign assign_stmt() throws Exception {
@@ -502,7 +501,7 @@ public class Parser {
             case RPAREN:
                 return new ArrayList<ParseTree.Arg>();
         }
-        throw new Exception("No matching production in args at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in args at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public List<ParseTree.Arg> arg_list() throws Exception {
@@ -525,7 +524,7 @@ public class Parser {
             case RPAREN:
                 return new ArrayList<ParseTree.Arg>();
         }
-        throw new Exception("No matching production in arg_list' at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in arg_list' at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.Expr expr() throws Exception {
@@ -540,7 +539,7 @@ public class Parser {
                 ParseTree.Expr_ e_ = expr_();
                 return new ParseTree.Expr(t, e_);
         }
-        throw new Exception("No matching production in expr at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in expr at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.Expr_ expr_() throws Exception {
@@ -559,7 +558,7 @@ public class Parser {
             case COMMA:
                 return new ParseTree.Expr_();
         }
-        throw new Exception("No matching production in expr' at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in expr' at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.Term term() throws Exception {
@@ -574,7 +573,7 @@ public class Parser {
                 ParseTree.Term_ t_ = term_();
                 return new ParseTree.Term(f,t_);
         }
-        throw new Exception("No matching production in term at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in term at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.Term_ term_() throws Exception {
@@ -595,7 +594,7 @@ public class Parser {
             case END:
                 return new ParseTree.Term_();
         }
-        throw new Exception("No matching production in term' at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in term' at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.Factor factor() throws Exception {
@@ -628,7 +627,7 @@ public class Parser {
                 String rb = Match(RBRACKET);
                 return new ParseTree.FactorNew(pt, exprInside);
         }
-        throw new Exception("No matching production in factor at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in factor at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.Factor_ factor_() throws Exception {
@@ -661,7 +660,7 @@ public class Parser {
             case COMMA:
                 return new ParseTree.FactorIdent_Eps();
         }
-        throw new Exception("No matching production in factor' at " + _lexer.lineno + ":" + _lexer.column + ".");
+        throw new Exception("No matching production in factor' at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
 }
