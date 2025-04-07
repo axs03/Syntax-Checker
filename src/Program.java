@@ -8,7 +8,7 @@ public class Program
         //+"}\n"
         //);
         //
-          args = new String[] { "testcases/succ_10.minc" };
+        args = new String[] { "testcases/succ_10.minc" };
 
         if(args.length <= 0)
             return;

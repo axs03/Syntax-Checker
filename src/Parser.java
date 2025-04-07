@@ -170,11 +170,9 @@ public class Parser {
     //               | eps
     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public ParseTree.Program program() throws Exception
-    {
+    public ParseTree.Program program() throws Exception {
         //      program -> decl_list
-        switch(_token.type)
-        {
+        switch(_token.type) {
             case NUM:
             case BOOL:
             case ENDMARKER:
@@ -185,11 +183,9 @@ public class Parser {
         throw new Exception("No matching production in program at " + _lexer.lineno + ":" + _lexer.column);
     }
 
-    public List<ParseTree.FuncDecl> decl_list() throws Exception
-    {
+    public List<ParseTree.FuncDecl> decl_list() throws Exception {
         //    decl_list -> decl_list'
-        switch(_token.type)
-        {
+        switch(_token.type) {
             case NUM:
             case BOOL:
             case ENDMARKER:
@@ -198,13 +194,11 @@ public class Parser {
         throw new Exception("No matching production in decl_list at " + _lexer.lineno + ":" + _lexer.column);
     }
 
-    public List<ParseTree.FuncDecl> decl_list_() throws Exception
-    {
+    public List<ParseTree.FuncDecl> decl_list_() throws Exception {
         //   decl_list' -> fun_decl decl_list'  |  eps
-        switch(_token.type)
-        {
-            case BOOL:
+        switch(_token.type) {
             case NUM:
+            case BOOL:
                 ParseTree.FuncDecl       v1 = fun_decl();
                 List<ParseTree.FuncDecl> v2 = decl_list_();
                 v2.add(0, v1);
@@ -215,13 +209,12 @@ public class Parser {
         throw new Exception("No matching production in decl_list' at " + _lexer.lineno + ":" + _lexer.column);
     }
 
-    public ParseTree.FuncDecl fun_decl() throws Exception
-    {
+    public ParseTree.FuncDecl fun_decl() throws Exception {
         //     fun_decl -> type_spec IDENT LPAREN params RPAREN BEGIN local_decls stmt_list END
         switch(_token.type)
         {
-            case BOOL:
             case NUM:
+            case BOOL:
                 ParseTree.TypeSpec        v01 = type_spec();
                 String                    v02 = Match(IDENT);
                 String                    v03 = Match(LPAREN);
@@ -324,11 +317,11 @@ public class Parser {
         {
             case BOOL:
                 String v1 = Match(BOOL);
-                return new ParseTree.PrimTypeNum();
+                return new ParseTree.PrimTypeBool();
             case NUM:
             {
                 String v2 = Match(NUM);
-                return new ParseTree.PrimTypeBool();
+                return new ParseTree.PrimTypeNum();
             }
         }
         throw new Exception("No matching production in prim_type at " + _lexer.lineno + ":" + _lexer.column + ".");
@@ -405,8 +398,7 @@ public class Parser {
 
     public List<ParseTree.Stmt> stmt_list_() throws Exception {
         //   stmt_list' -> stmt stmt_list' | eps
-        switch(_token.type)
-        {
+        switch(_token.type) {
             case BEGIN:
             case RETURN:
             case PRINT:
@@ -414,7 +406,7 @@ public class Parser {
             case WHILE:
             case IDENT:
                 ParseTree.Stmt s = stmt();
-                List<ParseTree.Stmt> rest = stmt_list();
+                List<ParseTree.Stmt> rest = stmt_list_();
                 rest.add(0, s);
                 return rest;
             case END:
@@ -561,10 +553,10 @@ public class Parser {
                 ParseTree.Expr_ eRest = expr_();
                 return new ParseTree.Expr_(op, t, eRest);
 
-            case SEMI:
             case RPAREN:
+            case RBRACKET:
+            case SEMI:
             case COMMA:
-            case END:
                 return new ParseTree.Expr_();
         }
         throw new Exception("No matching production in expr' at " + _lexer.lineno + ":" + _lexer.column + ".");
@@ -594,9 +586,11 @@ public class Parser {
                 ParseTree.Term_ rest = term_();
                 return new ParseTree.Term_(op, f, rest);
 
+            case RPAREN:
+            case RBRACKET:
+            case RELOP:
             case EXPROP:
             case SEMI:
-            case RPAREN:
             case COMMA:
             case END:
                 return new ParseTree.Term_();
