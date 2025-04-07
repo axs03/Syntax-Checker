@@ -179,7 +179,7 @@ public class Parser {
                 String v1 = Match(ENDMARKER);
                 return new ParseTree.Program(funcs);
         }
-        throw new Exception("No matching production in program at " + _lexer.lineno + ":" + _lexer.tokenColumn);
+        throw new Exception("No matching production in program at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public List<ParseTree.FuncDecl> decl_list() throws Exception {
@@ -205,13 +205,12 @@ public class Parser {
             case ENDMARKER:
                 return new ArrayList<ParseTree.FuncDecl>();
         }
-        throw new Exception("No matching production in decl_list' at " + _lexer.lineno + ":" + _lexer.tokenColumn);
+        throw new Exception("No matching production in decl_list' at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public ParseTree.FuncDecl fun_decl() throws Exception {
         //     fun_decl -> type_spec IDENT LPAREN params RPAREN BEGIN local_decls stmt_list END
-        switch(_token.type)
-        {
+        switch(_token.type) {
             case NUM:
             case BOOL:
                 ParseTree.TypeSpec        v01 = type_spec();
@@ -300,11 +299,7 @@ public class Parser {
                 String v1 = Match(LBRACKET);
                 String v2 = Match(RBRACKET);
                 return new ParseTree.TypeSpec_Array();
-            case IDENT:  // or any token signaling follow of type_spec
-            case LPAREN:
-            case BEGIN:
-            case END:
-            case ENDMARKER:
+            case IDENT:
                 return new ParseTree.TypeSpec_Value();
         }
         throw new Exception("No matching production in type_spec' at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
@@ -312,24 +307,20 @@ public class Parser {
 
     public ParseTree.PrimType prim_type() throws Exception {
         //    prim_type -> NUM | BOOL
-        switch(_token.type)
-        {
+        switch(_token.type) {
             case BOOL:
                 String v1 = Match(BOOL);
                 return new ParseTree.PrimTypeBool();
             case NUM:
-            {
                 String v2 = Match(NUM);
                 return new ParseTree.PrimTypeNum();
-            }
         }
         throw new Exception("No matching production in prim_type at " + _lexer.lineno + ":" + _lexer.tokenColumn + ".");
     }
 
     public List<ParseTree.LocalDecl> local_decls() throws Exception {
         //  local_decls -> local_decls'
-        switch(_token.type)
-        {
+        switch(_token.type) {
             case BEGIN:
             case END:
             case RETURN:
@@ -346,8 +337,7 @@ public class Parser {
 
     public List<ParseTree.LocalDecl> local_decls_() throws Exception {
         // local_decls' -> local_decl local_decls' | eps
-        switch(_token.type)
-        {
+        switch(_token.type) {
             case NUM:
             case BOOL:
                 ParseTree.LocalDecl ld = local_decl();
@@ -381,8 +371,7 @@ public class Parser {
 
     public List<ParseTree.Stmt> stmt_list() throws Exception {
         //    stmt_list -> stmt_list'
-        switch(_token.type)
-        {
+        switch(_token.type) {
             case BEGIN:
             case END:
             case RETURN:
